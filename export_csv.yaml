@@ -1,0 +1,12 @@
+common:
+  database: "sqlite:///./database/imd.sqlite"
+  prefix: export/csv/
+  format: csv
+
+exports:
+
+  - query: "SELECT * FROM weather"
+    filename: "state/{{state}}.json"
+
+  - query: "SELECT * FROM weather"
+    filename: "date/{{date}}.json"

@@ -4,7 +4,6 @@ Scrapes IMD data and saves into SQLITE. Can also export into CSV, JSON
  
 
 ## Download ##
---------
 
 Downlonad from the releases and or clone the git project.
 
@@ -29,9 +28,21 @@ python scrape.py
 python scrape.py -h 
 `
 
+### Export data as json ####
+`
+datafreeze export_json.yaml
+`
+
+### Export data as csv ####
+`
+datafreeze export_csv.yaml
+`
+
+
 ## Author ##
 
 Thejesh GN <i@thejeshgn.com>
+
 Fingerprint: C7D4 1911 9893 ADAF 27B0 FCAA BFFC 8DD3 C06D D6B0
 
 <table>
