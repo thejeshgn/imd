@@ -1,3 +1,34 @@
+
+# 10=HIMACHAL PRADESH
+# 11=JHARKHAND
+# 12=KARNATAKA
+# 13=KERALA
+# 15=MADHYA PRADESH
+# 16=MAHARASHTRA
+# 20=ORISSA
+# 22=PUNJAB
+# 23=RAJASTHAN
+# 24=SIKKIM
+# 25=TAMIL NADU
+# 26=UTTAR PRADESH
+# 28=WEST BENGAL
+# 2=ANDHRA PRADESH
+# 32=DELHI
+# 33=UTTARAKHAND
+# 36=BIHAR
+# 37=DAMAN &amp; DIU
+# 40=JAMMU &amp; KASHMIR
+# 41=TRIPURA
+# 45=NEW DELHI
+# 46=PUDUCHERRY
+# 49=LABORATORY
+# 4=ASSAM
+# 5=CHATTISGARH
+# 7=GOA
+# 8=GUJARAT
+# 9=HARYANA
+
+
 import sys, getopt
 from datetime import datetime
 from datetime import timedelta
@@ -32,12 +63,12 @@ def main(argv):
 
     single_state = None
     if state_no == "all":
-        states = [12]
+        states = [2,4,5,7,8,9, 10,11,12,13,15,16,20,22,23,24,25,26,28,32,33,36,37,40,41,45,46,49]
     else:
         states = [state_no]
 
     for single_state in states:
-        con = lite.connect('/media/thej/data2/imd/database/imd.sqlite')
+        con = lite.connect('./database/imd.sqlite')
         cur = con.cursor()
         print "Running "+run_type+" job for date="+date+" state="+str(single_state)
         baseurl = "http://imdaws.com/WeatherARGData.aspx?&FromDate="+str(date)+"&ToDate="+str(date)+"&State="+str(single_state)
@@ -98,19 +129,27 @@ def main(argv):
                 if k <= 1:
                     continue
                 #ignore if not tr
+                columns = []
                 if getattr(tables[0].contents[k], 'name', None) == 'tr':
-                    columns = []
-                    row = tables[0].contents[k].contents
-                    for r in range(0, len(row[k].contents)):
-                        print getattr(row[k].contents[r], 'name', None)
-                        if getattr(row[k].contents[r], 'name', None) == 'span': 
-                            if len(row[k].contents[r].contents) > 0:                       
-                                value = row[k].contents[r].contents[0]
+                    row = tables[0].contents[k]
+                    for r in range(0, len(row.contents)):
+                        if getattr(row.contents[r], 'name', None) == 'td': 
+                            td_column = row.contents[r]
+                            #print td_column
+                            if len(td_column.contents[0]) > 0:                       
+                                value = td_column.contents[0].contents[0]
                                 columns.append(value)
-                    print str(columns)        
+                            else:
+                                columns.append("")
                 else:
                     continue
-
+                print str(columns)        
+                insert_weather_data = {"station_id": columns[1], "date":columns[2], "time_utc":columns[3], "lat":columns[4], "lng":columns[5], "rainfall":columns[6], "temp":columns[7],"temp_max":columns[8], "temp_min":columns[9], "state":single_state, "url_hash":url_hash}
+                cur.execute('INSERT INTO weather (station_id, date, time_utc, lat, lng, rainfall, temp,temp_max, temp_min, state, url_hash) VALUES (:station_id, :date, :time_utc, :lat, :lng, :rainfall, :temp,:temp_max, :temp_min, :state, :url_hash)', insert_weather_data)
+                con.commit()
+            cur.execute("UPDATE requests SET parsed=? WHERE url_hash=?", (  str("yes"), str(url_hash) )  )
+            con.commit()
+        con.close()
 
 
 
