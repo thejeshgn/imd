@@ -6,7 +6,7 @@ common:
 exports:
 
   - query: "SELECT * FROM weather"
-    filename: "state/{{state}}.json"
+    filename: "state/{{state}}.csv"
 
   - query: "SELECT * FROM weather"
-    filename: "date/{{date}}.json"
+    filename: "date/{{date}}.csv"

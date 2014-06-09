@@ -63,7 +63,7 @@ def main(argv):
 
     single_state = None
     if state_no == "all":
-        states = [2,4,5,7,8,9, 10,11,12,13,15,16,20,22,23,24,25,26,28,32,33,36,37,40,41,45,46,49]
+        states = [5,7,8,9, 10,11,12,13,15,16,20,22,23,24,25,26,28,32,33,36,37,40,41,45,46,49,2,4]
     else:
         states = [state_no]
 
@@ -115,6 +115,7 @@ def main(argv):
                 print "UPDATE REQUESTS"
                 cur.execute("UPDATE requests SET status=?, content=? WHERE url_hash=?", ( str(r.status_code), str(r.text), str(url_hash) )  )
                 con.commit()
+                html_content = str(r.text)
                 parsed = "no"
             else:
                 #may be we can try later, now continue
@@ -123,6 +124,7 @@ def main(argv):
 
         if parsed == "no":
             print "Parsed = No, so parse"
+            print html_content
             soup = BeautifulSoup(html_content)
             tables = soup.findAll(id="DeviceData")
             for k in range(0, len(tables[0].contents)):

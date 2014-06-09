@@ -1,7 +1,8 @@
 # IMD Data Scraper #
 
 Scrapes IMD data and saves into SQLITE. Can also export into CSV, JSON
- 
+
+Ref: http://imdaws.com/ViewArgData.aspx 
 
 ## Download ##
 
@@ -69,3 +70,35 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+## State Codes ##
+
+10=HIMACHAL PRADESH \\
+11=JHARKHAND \\
+12=KARNATAKA \\
+13=KERALA \\
+15=MADHYA PRADESH \\
+16=MAHARASHTRA \\
+20=ORISSA \\
+22=PUNJAB \\
+23=RAJASTHAN \\
+24=SIKKIM \\
+25=TAMIL NADU \\
+26=UTTAR PRADESH \\
+28=WEST BENGAL \\
+2=ANDHRA PRADESH \\
+32=DELHI \\
+33=UTTARAKHAND \\
+36=BIHAR \\
+37=DAMAN &amp; DIU \\
+40=JAMMU &amp; KASHMIR \\
+41=TRIPURA \\
+45=NEW DELHI \\
+46=PUDUCHERRY \\
+49=LABORATORY \\
+4=ASSAM \\
+5=CHATTISGARH \\
+7=GOA \\
+9=HARYANA \\
+8=GUJARAT \\
