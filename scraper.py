@@ -146,8 +146,17 @@ def main(argv):
                 else:
                     continue
                 print str(columns)        
-                insert_weather_data = {"station_id": columns[1], "date":columns[2], "time_utc":columns[3], "lat":columns[4], "lng":columns[5], "rainfall":columns[6], "temp":columns[7],"temp_max":columns[8], "temp_min":columns[9], "state":single_state, "url_hash":url_hash}
-                cur.execute('INSERT INTO weather (station_id, date, time_utc, lat, lng, rainfall, temp,temp_max, temp_min, state, url_hash) VALUES (:station_id, :date, :time_utc, :lat, :lng, :rainfall, :temp,:temp_max, :temp_min, :state, :url_hash)', insert_weather_data)
+                query = "select * from locations where location='"+columns[1]+"'"
+                cur.execute(query)
+                results = cur.fetchone()
+                station_id = ""
+                if results == None:
+                    pass
+                else:
+                    station_id = location_id
+
+                insert_weather_data = {"station_id": station_id ,"station": columns[1], "date":columns[2], "time_utc":columns[3], "lat":columns[4], "lng":columns[5], "rainfall":columns[6], "temp":columns[7],"temp_max":columns[8], "temp_min":columns[9], "state":single_state, "url_hash":url_hash}
+                cur.execute('INSERT INTO weather (station, date, time_utc, lat, lng, rainfall, temp,temp_max, temp_min, state, url_hash) VALUES (:station_id, :date, :time_utc, :lat, :lng, :rainfall, :temp,:temp_max, :temp_min, :state, :url_hash)', insert_weather_data)
                 con.commit()
             cur.execute("UPDATE requests SET parsed=? WHERE url_hash=?", (  str("yes"), str(url_hash) )  )
             con.commit()
