@@ -40,17 +40,18 @@ import hashlib
 def main(argv):
     run_type = 'daily'
     today = datetime.utcnow().date()
-    yesterday = today - timedelta(1)
+    yesterday = today - timedelta(2)
     date = yesterday.strftime("%d/%m/%Y")
     state_no = 'all'
     try:
         opts, args = getopt.getopt(argv,"hi:o:",["runtype=","date=","state_no="])
     except getopt.GetoptError:
-        print 'scraper.py -r <run_type> -d <date> -s <state_no>'
+        print "Exception"
+        print 'scraper.py --runtype=daily --date="24/08/2014" --state_no=all'
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print 'scraper.py -r <run_type> -d <date> -s <state_no>'
+            print 'scraper.py --runtype=daily --date="24/08/2014" --state_no=all'
             sys.exit()
         elif opt in ("-r", "--run_type"):
             run_type = arg
@@ -96,7 +97,8 @@ def main(argv):
         else:
             print "REQUESTS Exists"
             parsed = results[3]
-            if results[2] == "200":
+            print str(results[2])
+            if str(results[2]) == "200":
                 print "Has valid content"
                 html_content = results[1]
                 #if already parsed then no need to parse
@@ -145,18 +147,22 @@ def main(argv):
                                 columns.append("")
                 else:
                     continue
-                print str(columns)        
-                query = "select * from locations where location='"+columns[1]+"'"
+                print str(columns)  
+                station_id_name = columns[1]
+                station_id_name = station_id_name.replace("'", '')
+
+                query = "select location_id from locations where location='"+station_id_name+"'"
                 cur.execute(query)
                 results = cur.fetchone()
                 station_id = ""
                 if results == None:
                     pass
                 else:
-                    station_id = location_id
+                    station_id = results[0]
 
-                insert_weather_data = {"station_id": station_id ,"station": columns[1], "date":columns[2], "time_utc":columns[3], "lat":columns[4], "lng":columns[5], "rainfall":columns[6], "temp":columns[7],"temp_max":columns[8], "temp_min":columns[9], "state":single_state, "url_hash":url_hash}
-                cur.execute('INSERT INTO weather (station, date, time_utc, lat, lng, rainfall, temp,temp_max, temp_min, state, url_hash) VALUES (:station_id, :date, :time_utc, :lat, :lng, :rainfall, :temp,:temp_max, :temp_min, :state, :url_hash)', insert_weather_data)
+
+                insert_weather_data = {"station_id": station_id_name, "date":columns[2], "time_utc":columns[3], "lat":columns[4], "lng":columns[5], "rainfall":columns[6], "temp":columns[7],"temp_max":columns[8], "temp_min":columns[9], "state":single_state, "url_hash":url_hash}
+                cur.execute('INSERT INTO weather (station_id, date, time_utc, lat, lng, rainfall, temp,temp_max, temp_min, state, url_hash) VALUES (:station_id, :date, :time_utc, :lat, :lng, :rainfall, :temp,:temp_max, :temp_min, :state, :url_hash)', insert_weather_data)
                 con.commit()
             cur.execute("UPDATE requests SET parsed=? WHERE url_hash=?", (  str("yes"), str(url_hash) )  )
             con.commit()

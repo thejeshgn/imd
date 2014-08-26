@@ -17,10 +17,14 @@ pip install -r requirements
 ## To run ##
 
 
-#### default: download yesterdays data for all states ####
+#### default: download day before yesterdays data for all states ####
 
 `
 python scrape.py
+
+#or for a specific date
+scraper.py --runtype=daily --date="24/08/2014" --state_no=all
+
 `
 
 #### Get help on parameters ####
@@ -29,13 +33,16 @@ python scrape.py
 python scrape.py -h 
 `
 
-### Export data as json ####
+### Export ####
+Weather data is in weather table. Make sure you take the distinct values of the table. 
+
 `
+#to export as json
 datafreeze export_json.yaml
 `
 
-### Export data as csv ####
 `
+#to export as csv
 datafreeze export_csv.yaml
 `
 

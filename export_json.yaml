@@ -5,8 +5,8 @@ common:
 
 exports:
 
-  - query: "SELECT * FROM weather"
+  - query: "SELECT distinct station_id, date,time_utc,lat,lng,rainfall,temp,temp_max,temp_min,state,url_hash FROM weather"
     filename: "state/{{state}}.json"
 
-  - query: "SELECT * FROM weather"
+  - query: "SELECT distinct station_id, date,time_utc,lat,lng,rainfall,temp,temp_max,temp_min,state,url_hash FROM weather"
     filename: "date/{{date}}.json"
