@@ -10,42 +10,35 @@ Downlonad from the releases and or clone the git project.
 
 
 ## Install Dependencies ##
-`
-pip install -r requirements
-`
+
+    pip install -r requirements
 
 ## To run ##
 
 
 #### default: download day before yesterdays data for all states ####
 
-`
---default
-python scrape.py
-
---or for a specific date
-scraper.py --runtype=daily --date="24/08/2014" --state_no=all
-
-`
+    --default
+    python scrape.py
+    
+    -- or for a specific date
+    scraper.py --runtype=daily --date="24/08/2014" --state_no=all
 
 #### Get help on parameters ####
 
-`
-python scrape.py -h 
-`
+
+    python scrape.py -h 
 
 ### Export ####
 Weather data is in weather table. Make sure you take the distinct values of the table. 
 
-`
-#to export as json
-datafreeze export_json.yaml
-`
 
-`
-#to export as csv
-datafreeze export_csv.yaml
-`
+    --to export as json
+    datafreeze export_json.yaml
+
+
+    --to export as csv
+    datafreeze export_csv.yaml
 
 
 ## Author ##
@@ -110,3 +103,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 7=GOA \\
 9=HARYANA \\
 8=GUJARAT \\
+
+
+
+
