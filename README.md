@@ -20,9 +20,10 @@ pip install -r requirements
 #### default: download day before yesterdays data for all states ####
 
 `
+--default
 python scrape.py
 
-#or for a specific date
+--or for a specific date
 scraper.py --runtype=daily --date="24/08/2014" --state_no=all
 
 `
